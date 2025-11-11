@@ -48,9 +48,10 @@ Module["expectedDataFileDownloads"]++;
         "warning: you defined Module.locateFilePackage, that has been renamed to Module.locateFile (using your locateFilePackage for now)"
       );
     }
-    var REMOTE_PACKAGE_NAME = Module["locateFile"]
+    var REMOTE_PACKAGE_NAME =
+      "https://pavelkosik.github.io/renpy.data"; /*Module["locateFile"]
       ? Module["locateFile"](REMOTE_PACKAGE_BASE, "")
-      : REMOTE_PACKAGE_BASE;
+      : REMOTE_PACKAGE_BASE;*/
     var REMOTE_PACKAGE_SIZE = metadata["remote_package_size"];
     function fetchRemotePackage(packageName, packageSize, callback, errback) {
       if (
