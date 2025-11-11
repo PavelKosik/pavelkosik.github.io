@@ -395,7 +395,7 @@ Module.preRun = Module.preRun || [];
 
       FS.close(f);
     } catch (e) {
-      // reportError("Could not download game.zip", e);
+      reportError("Could not download game.zip", e);
     }
   }
 
