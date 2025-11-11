@@ -19,14 +19,23 @@ Module["expectedDataFileDownloads"]++;
     ENVIRONMENT_IS_WASM_WORKER;
   if (isPthread || isWasmWorker) return;
   function loadPackage(metadata) {
-    var PACKAGE_PATH = "https://pavelkosik.github.io/";
+    var PACKAGE_PATH = "";
     if (typeof window === "object") {
-      PACKAGE_PATH = "https://pavelkosik.github.io/";
+      PACKAGE_PATH = window["encodeURIComponent"](
+        window.location.pathname
+          .toString()
+          .substring(0, window.location.pathname.toString().lastIndexOf("/")) +
+          "/"
+      );
     } else if (
       typeof process === "undefined" &&
       typeof location !== "undefined"
     ) {
-      PACKAGE_PATH = "https://pavelkosik.github.io/";
+      PACKAGE_PATH = encodeURIComponent(
+        location.pathname
+          .toString()
+          .substring(0, location.pathname.toString().lastIndexOf("/")) + "/"
+      );
     }
     var PACKAGE_NAME = "renpy.data";
     var REMOTE_PACKAGE_BASE = "renpy.data";
@@ -41,7 +50,7 @@ Module["expectedDataFileDownloads"]++;
     }
     var REMOTE_PACKAGE_NAME = Module["locateFile"]
       ? Module["locateFile"](REMOTE_PACKAGE_BASE, "")
-      : PACKAGE_PATH + REMOTE_PACKAGE_BASE;
+      : REMOTE_PACKAGE_BASE;
     var REMOTE_PACKAGE_SIZE = metadata["remote_package_size"];
     function fetchRemotePackage(packageName, packageSize, callback, errback) {
       if (
@@ -106,7 +115,7 @@ Module["expectedDataFileDownloads"]++;
           var packageData = xhr.response;
           callback(packageData);
         } else {
-          throw new Error("TESTING" + PACKAGE_PATH + REMOTE_PACKAGE_BASE);
+          throw new Error(xhr.statusText + " : " + xhr.responseURL);
         }
       };
       xhr.send(null);
