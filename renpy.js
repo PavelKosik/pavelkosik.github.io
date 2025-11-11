@@ -19,23 +19,25 @@ Module["expectedDataFileDownloads"]++;
     ENVIRONMENT_IS_WASM_WORKER;
   if (isPthread || isWasmWorker) return;
   function loadPackage(metadata) {
-    var PACKAGE_PATH = "";
+    var PACKAGE_PATH = "https://pavelkosik.github.io/renpy.data";
     if (typeof window === "object") {
-      PACKAGE_PATH = window["encodeURIComponent"](
+      PACKAGE_PATH =
+        "https://pavelkosik.github.io/renpy.data"; /*window["encodeURIComponent"](
         window.location.pathname
           .toString()
           .substring(0, window.location.pathname.toString().lastIndexOf("/")) +
           "/"
-      );
+      );*/
     } else if (
       typeof process === "undefined" &&
       typeof location !== "undefined"
     ) {
-      PACKAGE_PATH = encodeURIComponent(
+      PACKAGE_PATH =
+        "https://pavelkosik.github.io/renpy.data"; /*encodeURIComponent(
         location.pathname
           .toString()
           .substring(0, location.pathname.toString().lastIndexOf("/")) + "/"
-      );
+      );*/
     }
     var PACKAGE_NAME = "renpy.data";
     var REMOTE_PACKAGE_BASE = "renpy.data";
