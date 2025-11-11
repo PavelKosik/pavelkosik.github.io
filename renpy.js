@@ -433,9 +433,13 @@ Module["expectedDataFileDownloads"]++;
         for (var i = 0; i < files.length; ++i) {
           DataRequest.prototype.requests[files[i].filename].onload();
         }
-        Module["removeRunDependency"]("datafile_renpy.data");
+        Module["removeRunDependency"](
+          "datafile_https://pavelkosik.github.io/renpy.data"
+        );
       }
-      Module["addRunDependency"]("datafile_renpy.data");
+      Module["addRunDependency"](
+        "datafile_https://pavelkosik.github.io/renpy.data"
+      );
       if (!Module["preloadResults"]) Module["preloadResults"] = {};
       Module["preloadResults"][PACKAGE_NAME] = { fromCache: false };
       if (fetched) {
