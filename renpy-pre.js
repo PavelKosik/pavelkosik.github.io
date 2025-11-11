@@ -379,9 +379,9 @@ Module.preRun = Module.preRun || [];
       let reader = await response.body.getReader();
 
       let f = FS.open("https://pavelkosik.github.io/game.zip", "w");
+      console.log("DOWNLOADING");
 
       while (true) {
-        console.log("DOWNLOADING");
         let { done, value } = await reader.read();
 
         if (done) {
