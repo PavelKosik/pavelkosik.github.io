@@ -4470,6 +4470,7 @@ if (ENVIRONMENT_IS_NODE) {
       if (isFileURI(url)) {
         return new Promise((resolve, reject) => {
           var xhr = new XMLHttpRequest();
+          console.log("URL1: " + url);
           xhr.open("GET", url, true);
           xhr.responseType = "arraybuffer";
           xhr.onload = () => {
@@ -7582,6 +7583,7 @@ var FS = {
       }
       cacheLength() {
         var xhr = new XMLHttpRequest();
+        console.log("URL2: " + url);
         xhr.open("HEAD", url, false);
         xhr.send(null);
         if (!((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304))
