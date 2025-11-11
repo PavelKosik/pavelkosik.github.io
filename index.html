@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-us">
 
 <head>
@@ -222,12 +222,12 @@
       // Register the service worker.
       if (navigator.serviceWorker) {
           if (!navigator.serviceWorker.controller) {
-              navigator.serviceWorker.register('rnadnsadnsa.netlify.app/service-worker.js', { updateViaCache: 'all' });
+              navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
           }
       }
   </script>
-  <script src="rnadnsadnsa.netlify.app/renpy-pre.js"></script>
-  <script async type="text/javascript" src="rnadnsadnsa.netlify.app/renpy.js"></script>
+  <script src="renpy-pre.js"></script>
+  <script async type="text/javascript" src="renpy.js"></script>
 </body>
 
 </html>
