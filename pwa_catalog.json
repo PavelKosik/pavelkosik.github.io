@@ -10,7 +10,7 @@
     "renpy.wasm",
     "service-worker.js",
     "web-presplash.jpg",
-    "https://pavelkosik.github.io/game/illurock.opus",
+    "game/illurock.opus",
     "game/images/bg club.jpg",
     "game/images/bg lecturehall.jpg",
     "game/images/bg meadow.jpg",
