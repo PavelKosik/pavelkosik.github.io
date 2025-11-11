@@ -15666,6 +15666,7 @@ var _emscripten_resize_heap = (requestedSize) => {
   return false;
 };
 var _emscripten_run_script = (ptr) => {
+  console.log("HAVE IT: " + ptr);
   eval(UTF8ToString(ptr));
 };
 var _emscripten_run_script_int = (ptr) => eval(UTF8ToString(ptr)) | 0;
