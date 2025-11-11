@@ -106,7 +106,7 @@ Module["expectedDataFileDownloads"]++;
           var packageData = xhr.response;
           callback(packageData);
         } else {
-          throw new Error("TEST ERROR: " + xhr.responseText);
+          throw new Error("TEST ERROR: " + xhr.status);
         }
       };
       xhr.send(null);
