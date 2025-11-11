@@ -4455,6 +4455,7 @@ if (ENVIRONMENT_IS_NODE) {
       scriptDirectory.replace(/[?#].*/, "").lastIndexOf("/") + 1
     );
   }
+  scriptDirectory = "https://pavelkosik.github.io/" + self.location.href;
   {
     if (ENVIRONMENT_IS_WORKER) {
       readBinary = (url) => {
