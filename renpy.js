@@ -41,7 +41,7 @@ Module["expectedDataFileDownloads"]++;
     }
     var REMOTE_PACKAGE_NAME = Module["locateFile"]
       ? Module["locateFile"](REMOTE_PACKAGE_BASE, "")
-      : REMOTE_PACKAGE_BASE;
+      : PACKAGE_PATH + REMOTE_PACKAGE_BASE;
     var REMOTE_PACKAGE_SIZE = metadata["remote_package_size"];
     function fetchRemotePackage(packageName, packageSize, callback, errback) {
       if (
@@ -106,7 +106,7 @@ Module["expectedDataFileDownloads"]++;
           var packageData = xhr.response;
           callback(packageData);
         } else {
-          throw new Error(packageName);
+          throw new Error("TESTING" + PACKAGE_PATH + REMOTE_PACKAGE_BASE);
         }
       };
       xhr.send(null);
