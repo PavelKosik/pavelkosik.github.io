@@ -363,7 +363,7 @@ Module.preRun = Module.preRun || [];
   async function loadGameZip() {
     try {
       let response = await fetch(window.gameZipURL);
-      console.log("DOWNLOADING");
+      console.log("DOWNLOADING: " + response);
 
       if (!response.ok) {
         reportError(
