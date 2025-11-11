@@ -4456,6 +4456,7 @@ if (ENVIRONMENT_IS_NODE) {
     );
   }
   scriptDirectory = "https://pavelkosik.github.io/" + self.location.href;
+  console.log("TRY STUFF: " + scriptDirectory);
   {
     if (ENVIRONMENT_IS_WORKER) {
       readBinary = (url) => {
