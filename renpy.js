@@ -19,25 +19,23 @@ Module["expectedDataFileDownloads"]++;
     ENVIRONMENT_IS_WASM_WORKER;
   if (isPthread || isWasmWorker) return;
   function loadPackage(metadata) {
-    var PACKAGE_PATH = "https://pavelkosik.github.io/renpy.data";
+    var PACKAGE_PATH = "";
     if (typeof window === "object") {
-      PACKAGE_PATH =
-        "https://pavelkosik.github.io/renpy.data"; /*window["encodeURIComponent"](
+      PACKAGE_PATH = window["encodeURIComponent"](
         window.location.pathname
           .toString()
           .substring(0, window.location.pathname.toString().lastIndexOf("/")) +
           "/"
-      );*/
+      );
     } else if (
       typeof process === "undefined" &&
       typeof location !== "undefined"
     ) {
-      PACKAGE_PATH =
-        "https://pavelkosik.github.io/renpy.data"; /*encodeURIComponent(
+      PACKAGE_PATH = encodeURIComponent(
         location.pathname
           .toString()
           .substring(0, location.pathname.toString().lastIndexOf("/")) + "/"
-      );*/
+      );
     }
     var PACKAGE_NAME = "renpy.data";
     var REMOTE_PACKAGE_BASE = "renpy.data";
@@ -4461,6 +4459,7 @@ if (ENVIRONMENT_IS_NODE) {
     if (ENVIRONMENT_IS_WORKER) {
       readBinary = (url) => {
         var xhr = new XMLHttpRequest();
+        console.log("URL: " + url);
         xhr.open("GET", url, false);
         xhr.responseType = "arraybuffer";
         xhr.send(null);
