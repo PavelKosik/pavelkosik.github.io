@@ -362,6 +362,7 @@ Module.preRun = Module.preRun || [];
 
   async function loadGameZip() {
     try {
+      console.log("DOWNLOADING");
       let response = await fetch(window.gameZipURL);
 
       if (!response.ok) {
@@ -372,7 +373,6 @@ Module.preRun = Module.preRun || [];
             response.statusText
         );
       }
-      console.log("DOWNLOADING");
 
       gameZipSize = parseInt(response.headers.get("Content-Length"), 10);
       if (Number.isNaN(gameZipSize)) gameZipSize = 0;
