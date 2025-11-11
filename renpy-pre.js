@@ -381,6 +381,7 @@ Module.preRun = Module.preRun || [];
       let f = FS.open("https://pavelkosik.github.io/game.zip", "w");
 
       while (true) {
+        console.log("DOWNLOADING");
         let { done, value } = await reader.read();
 
         if (done) {
