@@ -19,7 +19,7 @@ Module["expectedDataFileDownloads"]++;
     ENVIRONMENT_IS_WASM_WORKER;
   if (isPthread || isWasmWorker) return;
   function loadPackage(metadata) {
-    var PACKAGE_PATH = "";
+    var PACKAGE_PATH = "https://pavelkosik.github.io/";
     if (typeof window === "object") {
       PACKAGE_PATH = window["encodeURIComponent"](
         window.location.pathname
@@ -37,8 +37,8 @@ Module["expectedDataFileDownloads"]++;
           .substring(0, location.pathname.toString().lastIndexOf("/")) + "/"
       );
     }
-    var PACKAGE_NAME = "https://pavelkosik.github.io/renpy.data";
-    var REMOTE_PACKAGE_BASE = "https://pavelkosik.github.io/renpy.data";
+    var PACKAGE_NAME = "renpy.data";
+    var REMOTE_PACKAGE_BASE = "renpy.data";
     if (
       typeof Module["locateFilePackage"] === "function" &&
       !Module["locateFile"]
@@ -433,13 +433,9 @@ Module["expectedDataFileDownloads"]++;
         for (var i = 0; i < files.length; ++i) {
           DataRequest.prototype.requests[files[i].filename].onload();
         }
-        Module["removeRunDependency"](
-          "datafile_https://pavelkosik.github.io/renpy.data"
-        );
+        Module["removeRunDependency"]("datafile_renpy.data");
       }
-      Module["addRunDependency"](
-        "datafile_https://pavelkosik.github.io/renpy.data"
-      );
+      Module["addRunDependency"]("datafile_renpy.data");
       if (!Module["preloadResults"]) Module["preloadResults"] = {};
       Module["preloadResults"][PACKAGE_NAME] = { fromCache: false };
       if (fetched) {
