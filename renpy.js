@@ -434,7 +434,6 @@ Module["expectedDataFileDownloads"]++;
         DataRequest.prototype.byteArray = byteArray;
         var files = metadata["files"];
         for (var i = 0; i < files.length; ++i) {
-          console.log("TESTING: " + files[i]);
           DataRequest.prototype.requests[files[i].filename].onload();
         }
         Module["removeRunDependency"]("datafile_renpy.data");
@@ -449,6 +448,8 @@ Module["expectedDataFileDownloads"]++;
         fetchedCallback = processPackageData;
       }
     }
+
+    console.log("SOMETHING: " + Module);
     if (Module["calledRun"]) {
       runWithFS(Module);
     } else {
