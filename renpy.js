@@ -70,10 +70,11 @@ Module["expectedDataFileDownloads"]++;
       }
       var xhr = new XMLHttpRequest();
       xhr.open("GET", packageName, true);
+      console.log("packageName: " + packageName);
+
       xhr.responseType = "arraybuffer";
       xhr.onprogress = (event) => {
         var url = packageName;
-        console.log("URL: " + url);
         var size = packageSize;
         if (event.total) size = event.total;
         if (event.loaded) {
