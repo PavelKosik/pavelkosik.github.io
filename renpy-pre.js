@@ -362,8 +362,8 @@ Module.preRun = Module.preRun || [];
 
   async function loadGameZip() {
     try {
-      console.log("DOWNLOADING");
       let response = await fetch(window.gameZipURL);
+      console.log("DOWNLOADING");
 
       if (!response.ok) {
         reportError(
@@ -665,13 +665,17 @@ Module.preRun = Module.preRun || [];
     }
 
     async function loadCacheWorker() {
-      let response = await fetch("pwa_catalog.json");
+      let response = await fetch(
+        "https://pavelkosik.github.io/pwa_catalog.json"
+      );
       let catalog = await response.json();
 
       let cachedCatalog;
 
       try {
-        let cachedCatalogResponse = await fetch("pwa_catalog.json?cached");
+        let cachedCatalogResponse = await fetch(
+          "https://pavelkosik.github.io/pwa_catalog.json?cached"
+        );
         cachedCatalog = await cachedCatalogResponse.json();
       } catch (e) {
         console.log("No cached catalog found.");
@@ -697,8 +701,8 @@ Module.preRun = Module.preRun || [];
       hideStatus();
 
       // This will add the catalog to the cache, such that
-      // fetch("pwa_catalog.json?cached") will return it.
-      fetch("pwa_catalog.json?uncached");
+      // fetch("https://pavelkosik.github.io/pwa_catalog.json?cached") will return it.
+      fetch("https://pavelkosik.github.io/pwa_catalog.json?uncached");
     }
 
     loadCacheWorker();
