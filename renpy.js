@@ -449,7 +449,6 @@ Module["expectedDataFileDownloads"]++;
       }
     }
 
-    console.log("SOMETHING: " + Module);
     if (Module["calledRun"]) {
       runWithFS(Module);
     } else {
