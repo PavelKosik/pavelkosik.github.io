@@ -10,54 +10,57 @@ if (ENVIRONMENT_IS_NODE) {
 if (!Module["expectedDataFileDownloads"]) {
   Module["expectedDataFileDownloads"] = 0;
 }
-var Module = Module || {};
-
-// Always use GitHub URL for the data file
-Module["locateFile"] = function (path, prefix) {
-  return "https://pavelkosik.github.io/" + path;
-};
-
 Module["expectedDataFileDownloads"]++;
-
 (() => {
-  // Only run on main thread
   var isPthread =
     typeof ENVIRONMENT_IS_PTHREAD != "undefined" && ENVIRONMENT_IS_PTHREAD;
   var isWasmWorker =
     typeof ENVIRONMENT_IS_WASM_WORKER != "undefined" &&
     ENVIRONMENT_IS_WASM_WORKER;
   if (isPthread || isWasmWorker) return;
-
   function loadPackage(metadata) {
+    var PACKAGE_PATH = "https://pavelkosik.github.io/";
+    if (typeof window === "object") {
+      PACKAGE_PATH = "https://pavelkosik.github.io/";
+    } else if (
+      typeof process === "undefined" &&
+      typeof location !== "undefined"
+    ) {
+      PACKAGE_PATH = "https://pavelkosik.github.io/";
+    }
     var PACKAGE_NAME = "renpy.data";
     var REMOTE_PACKAGE_BASE = "renpy.data";
-
-    // Determine final remote package URL using locateFile
+    if (
+      typeof Module["locateFilePackage"] === "function" &&
+      !Module["locateFile"]
+    ) {
+      Module["locateFile"] = Module["locateFilePackage"];
+      err(
+        "warning: you defined Module.locateFilePackage, that has been renamed to Module.locateFile (using your locateFilePackage for now)"
+      );
+    }
     var REMOTE_PACKAGE_NAME = Module["locateFile"]
       ? Module["locateFile"](REMOTE_PACKAGE_BASE, "")
       : REMOTE_PACKAGE_BASE;
-
     var REMOTE_PACKAGE_SIZE = metadata["remote_package_size"];
-
     function fetchRemotePackage(packageName, packageSize, callback, errback) {
-      // Node.js environment
       if (
         typeof process === "object" &&
         typeof process.versions === "object" &&
         typeof process.versions.node === "string"
       ) {
         require("fs").readFile(packageName, (err, contents) => {
-          if (err) errback(err);
-          else callback(contents.buffer);
+          if (err) {
+            errback(err);
+          } else {
+            callback(contents.buffer);
+          }
         });
         return;
       }
-
-      // Browser environment
       var xhr = new XMLHttpRequest();
       xhr.open("GET", packageName, true);
       xhr.responseType = "arraybuffer";
-
       xhr.onprogress = (event) => {
         var url = packageName;
         var size = packageSize;
@@ -70,11 +73,65 @@ Module["expectedDataFileDownloads"]++;
               loaded: event.loaded,
               total: size,
             };
+          } else {
+            Module["dataFileDownloads"][url].loaded = event.loaded;
           }
+          var total = 0;
+          var loaded = 0;
+          var num = 0;
+          for (var download in Module["dataFileDownloads"]) {
+            var data = Module["dataFileDownloads"][download];
+            total += data.total;
+            loaded += data.loaded;
+            num++;
+          }
+          total = Math.ceil(
+            (total * Module["expectedDataFileDownloads"]) / num
+          );
+          Module["setStatus"]?.(`Downloading data... (${loaded}/${total})`);
+        } else if (!Module["dataFileDownloads"]) {
+          Module["setStatus"]?.("Downloading data...");
         }
       };
+      xhr.onerror = (event) => {
+        throw new Error("NetworkError for: " + packageName);
+      };
+      xhr.onload = (event) => {
+        if (
+          xhr.status == 200 ||
+          xhr.status == 304 ||
+          xhr.status == 206 ||
+          (xhr.status == 0 && xhr.response)
+        ) {
+          var packageData = xhr.response;
+          callback(packageData);
+        } else {
+          throw new Error(xhr.statusText + " : " + xhr.responseURL);
+        }
+      };
+      xhr.send(null);
     }
-
+    function handleError(error) {
+      console.error("package error:", error);
+    }
+    var fetchedCallback = null;
+    var fetched = Module["getPreloadedPackage"]
+      ? Module["getPreloadedPackage"](REMOTE_PACKAGE_NAME, REMOTE_PACKAGE_SIZE)
+      : null;
+    if (!fetched)
+      fetchRemotePackage(
+        REMOTE_PACKAGE_NAME,
+        REMOTE_PACKAGE_SIZE,
+        (data) => {
+          if (fetchedCallback) {
+            fetchedCallback(data);
+            fetchedCallback = null;
+          } else {
+            fetched = data;
+          }
+        },
+        handleError
+      );
     function runWithFS(Module) {
       function assert(check, msg) {
         if (!check) throw msg + new Error().stack;
