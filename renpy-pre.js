@@ -372,6 +372,7 @@ Module.preRun = Module.preRun || [];
             response.statusText
         );
       }
+      console.log("DOWNLOADING");
 
       gameZipSize = parseInt(response.headers.get("Content-Length"), 10);
       if (Number.isNaN(gameZipSize)) gameZipSize = 0;
@@ -379,7 +380,6 @@ Module.preRun = Module.preRun || [];
       let reader = await response.body.getReader();
 
       let f = FS.open("https://pavelkosik.github.io/game.zip", "w");
-      console.log("DOWNLOADING");
 
       while (true) {
         let { done, value } = await reader.read();
